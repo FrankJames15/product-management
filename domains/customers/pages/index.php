@@ -221,31 +221,31 @@ if (isset($_POST['update-customer'])) {
 
                                             <label class="form-label">Last Name
                                             </label>
-                                            <input name="last-name" class="form-control" value="test">
+                                            <input name="last-name" class="form-control">
                                         </div>
                                         <div class="col-sm-5">
 
                                             <label class="form-label">First Name
                                             </label>
-                                            <input name="first-name" class="form-control" value="test">
+                                            <input name="first-name" class="form-control">
                                         </div>
                                         <div class="col-sm-2">
 
                                             <label class="form-label">Initial
                                             </label>
-                                            <input name="initial" class="form-control" value="test">
+                                            <input name="initial" class="form-control">
                                         </div>
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-sm">
                                             <label class="form-label">Area Code
                                             </label>
-                                            <input name="area-code" class="form-control" value='000'>
+                                            <input name="area-code" class="form-control">
                                         </div>
                                         <div class="col-sm">
                                             <label class="form-label">Phone
                                             </label>
-                                            <input name="phone" class="form-control" value="test">
+                                            <input name="phone" class="form-control">
                                         </div>
                                     </div>
                                 </div>
