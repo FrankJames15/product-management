@@ -1,18 +1,30 @@
 <?php
 session_start();
 include '../../../configs/connect-db.php';
-// include '../functions/get-all-invoices.php';
-// include '../functions/delete-invoice.php';
+include '../functions/get-all-invoices.php';
+include '../functions/delete-invoice.fn.php';
+$orders = getAllInvoices();
 
-// if (isset($_POST['delete'])) {
-//     $pcode = $_POST['pcode'];
-//     if (deleteInvoice($pcode)) {
-//         $_SESSION['action'] = 'delete';
-//         $_SESSION['msg'] = 'Invoice deleted successfully!';
-//         header('location: invoices.php'); //refresh to prevent re-submit
-//         exit;
-//     }
-// }
+if (isset($_POST['delete'])) {
+
+    $to_delete = $_POST['to-delete'];
+
+    function errorCB()
+    {
+        $_SESSION['action'] = 'error';
+        $_SESSION['msg'] = 'Deletion Failed';
+        header('location: index.php'); //refresh to prevent re-submit
+        exit;
+    }
+    function successCB()
+    {
+        $_SESSION['action'] = 'delete';
+        $_SESSION['msg'] = 'Invoice deleted successfully!';
+        header('location: index.php'); //refresh to prevent re-submit
+        exit;
+    }
+    deleteInvoice(Connect(), 'errorCB', 'successCB', $to_delete);
+}
 
 // if (isset($_POST['search'])) {
 //     $search = $_POST['txtsearch'];
@@ -88,8 +100,7 @@ include '../../../configs/connect-db.php';
 
                 <tbody>
                     <?php
-                    include '../functions/get-all-invoices.php';
-                    $orders = getAllInvoices();
+
                     $i = 0;
                     foreach ($orders as $order):
                         $i++;
@@ -104,14 +115,24 @@ include '../../../configs/connect-db.php';
                             <td><?= number_format($order['inv_tax'], 2) ?></td>
                             <td><?= number_format($order['inv_total'], 2) ?></td>
                             <td>
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-primary btn-sm">
-                                        <a href="" class="text-white"><i class="fas fa-pen"></i></a>
-                                    </label>
-                                    <label class="btn btn-danger btn-sm">
-                                        <a href="" class="text-white"><i class="fas fa-trash"></i></a>
-                                    </label>
-                                </div>
+                                <form
+                                    action=<?= $_SERVER['PHP_SELF'] ?>
+                                    method="POST">
+                                    <input name='to-delete' value=<?= $order['inv_number'] ?> type="hidden">
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <button
+
+                                            class="btn btn-primary btn-sm">
+                                            <a href="" class="text-white"><i class="fas fa-pen"></i></a>
+                                        </button>
+                                        <button
+                                            name='delete'
+                                            type='submit'
+                                            class="btn btn-danger btn-sm">
+                                            <a href="" class="text-white"><i class="fas fa-trash"></i></a>
+                                        </button>
+                                    </div>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach ?>
