@@ -3,8 +3,17 @@ session_start();
 include '../../../configs/connect-db.php';
 include '../functions/get-all-vendors.php';
 include '../functions/delete-vendor.fn.php';
+include '../functions/search.fn.php';
 
-$vendors = getAllVendors(Connect(), null, null);
+$vendors = getAllVendors(Connect(), null, null) ?? [];
+$textToSearch = $_POST['text-to-search'] ?? '';
+$filteredVendors = $vendors;
+
+// 🔍search
+if (isset($_POST['search'])) {
+    $filteredVendors = search($vendors, $textToSearch);
+}
+
 
 if (isset($_POST['delete'])) {
 
@@ -59,7 +68,9 @@ if (isset($_POST['delete'])) {
                     <div class="row d-flex align-items-end mb-3">
                         <div class="col6">
                             <!-- <label for="stocks form-label">Search</label> -->
-                            <input type="text" class="form-control " name="txtsearch"
+                            <input type="text" class="form-control " name="text-to-search"
+
+                                value='<?= $textToSearch ?>'
                                 placeholder="Type to search...">
                         </div>
                         <div class="col-6">
@@ -99,7 +110,7 @@ if (isset($_POST['delete'])) {
                     <?php
                     //todo: add search
                     $i = 0;
-                    foreach ($vendors as $vendor) :
+                    foreach ($filteredVendors as $vendor) :
                         $i++;
                     ?>
                         <tr>
