@@ -1,3 +1,43 @@
+<?php
+
+session_start();
+
+
+
+$_SESSION['error'] = null;
+
+function signIn($user = null, $password = null)
+{
+    define('HOST', 'localhost');
+    define('DBNAME', 'salecodb');
+
+    $conn = @new mysqli(HOST, $user, $password, DBNAME);
+    if ($conn->connect_error) {
+        return 0;
+    }
+    $_SESSION['user'] = $user;
+    $_SESSION['password'] = $password;
+    unset($_SESSION['error']);
+    header('Location: ./domains/dashboard/pages/dashboard.php');
+    return 1;
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $user = $_POST['username'] ?? NULL;
+    $password = $_POST['password'] ?? NULL;
+
+    // echo 'username: ' . $user . '<br />';
+    // echo 'password: ' . $password . '<br />';
+
+    $result = signIn($user, $password);
+
+    if (!$result) {
+        $_SESSION['error'] = "Log-in failed";
+        header('Location: index.php');
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,46 +53,50 @@
 </head>
 
 <body class="text-center ">
-    <div class="container">
 
-        <form class=" form-signin" action="./domains/dashboard/pages/dashboard.php">
-            <!-- <img
-            class="mb-4"
-            src="img/bootstrap-solid.svg"
-            alt=""
-            width="72"
-            height="72" /> -->
+    <div class="container">
+        <?php if ($_SESSION['error']): ?>
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <img src="..." class="rounded mr-2" alt="...">
+                    <strong class="mr-auto">Bootstrap</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        <?php endif ?>
+
+        <form
+            method="POST"
+            class=" form-signin" action=<?= $_SERVER['PHP_SELF'] ?>>
+
             <h1 class="h3 mb-1 font-weight-normal">ACCOUNT LOGIN</h1>
             <p class="mb-3 text-secondary">Signin to manage your products</p>
 
-            <label for="Username" class="sr-only">Username</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fas fa-user"></i>
-                    </div>
-                </div>
+            <label class="sr-only">Username</label>
+            <div class="input-group mb-3">
+
                 <input
-                    type="text"
+                    name=username
                     class="form-control"
-                    id="Username"
-                    placeholder="Type your username" />
+                    placeholder="Username" />
             </div>
 
-            <label for="Password" class="sr-only">Password</label>
+            <label class="sr-only">Password</label>
             <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fas fa-key"></i>
-                    </div>
-                </div>
+
                 <input
-                    type="text"
+                    name=password
+                    type="password"
                     class="form-control"
-                    id="Username"
-                    placeholder="Type your password" />
+                    placeholder="Password" />
             </div>
-            <div class="checkbox mb-3"></div>
+            <!-- <div class="checkbox mb-3"></div> -->
             <button class="btn btn-lg btn-primary btn-block" type="submit">
                 Sign in
             </button>

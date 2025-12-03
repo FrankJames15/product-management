@@ -1,8 +1,17 @@
 <?php
 session_start();
 include '../../../configs/connect-db.php';
+include '../functions/search.fn.php';
 include '../functions/get-all-products.php';
 include '../functions/delete-product.php';
+
+$products = getAllProducts(Connect());
+$toSearch = $_POST['to-search'] ?? "";
+$filteredProducts = $products;
+
+if (isset($_POST['search'])) {
+    $filteredProducts = search($products, $toSearch);
+}
 
 if (isset($_POST['delete'])) {
     $pcode = $_POST['pcode'];
@@ -14,12 +23,7 @@ if (isset($_POST['delete'])) {
     }
 }
 
-if (isset($_POST['search'])) {
-    $search = $_POST['txtsearch'];
-    $products = findProducts($search);
-} else {
-    $products = getAllProducts();
-}
+
 
 ?>
 <!doctype html>
@@ -52,7 +56,9 @@ if (isset($_POST['search'])) {
                     <div class="row d-flex align-items-end mb-3">
                         <div class="col6">
                             <!-- <label for="stocks form-label">Search</label> -->
-                            <input type="text" class="form-control " name="txtsearch"
+                            <input
+                                value='<?= $toSearch ?>'
+                                type="text" class="form-control " name="to-search"
                                 placeholder="Type to search...">
                         </div>
                         <div class="col-6">
@@ -79,8 +85,8 @@ if (isset($_POST['search'])) {
                         <th>#</th>
                         <th>Code</th>
                         <th>Name</th>
-                        <th>Vendor</th>
                         <th>Description</th>
+                        <th>Vendor</th>
 
                         <th>Price</th>
                         <th>Stocks</th>
@@ -92,15 +98,15 @@ if (isset($_POST['search'])) {
                     <?php
                     //todo: add search
                     $i = 0;
-                    foreach ($products as $product) :
+                    foreach ($filteredProducts as $product) :
                         $i++;
                     ?>
                         <tr>
                             <td><?= $i ?></td>
                             <td><?= $product['p_code'] ?></td>
                             <td><?= $product['p_name'] ?></td>
-                            <td><?= $product['first_name'] . ' ' . $product['initial'] . '. ' . $product['last_name'] ?></td>
                             <td><?= $product['p_descript'] ?></td>
+                            <td><?= $product['first_name'] . ' ' . $product['initial'] . '. ' . $product['last_name'] ?></td>
                             <td><?= $product['p_price'] ?></td>
                             <td><?= $product['p_qoh'] ?></td>
                             <td>
