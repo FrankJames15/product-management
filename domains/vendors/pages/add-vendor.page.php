@@ -78,13 +78,13 @@ if (isset($_POST['add-vendor'])) {
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label class="form-label">Last Name</label>
-                                    <input name="last-name" class="form-control" value='test'>
+                                    <input name="last-name" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label class="form-label">First Name</label>
-                                    <input name="first-name" class="form-control" value='test'>
+                                    <input name="first-name" class="form-control">
                                 </div>
                             </div>
 
@@ -93,14 +93,14 @@ if (isset($_POST['add-vendor'])) {
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label class="form-label">Initial</label>
-                                    <input name="initial" class="form-control" value='test'>
+                                    <input name="initial" class="form-control">
                                 </div>
 
                             </div>
                             <div class="col-sm-9">
                                 <div class="form-group">
                                     <label class="form-label">Contact</label>
-                                    <input name="contact" class="form-control" value='test'>
+                                    <input name="contact" class="form-control">
                                 </div>
                             </div>
 

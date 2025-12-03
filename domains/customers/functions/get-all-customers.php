@@ -1,10 +1,10 @@
 <?php
-function getAllCustomers()
+function getAllCustomers($conn = null)
 {
-    $conn = Connect();
-
     $query = "SELECT * FROM customer ORDER BY cus_code DESC";
     $result = $conn->query($query);
+
+
 
     $customers = [];
     while ($row = $result->fetch_assoc()) {

@@ -10,7 +10,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link <?= $title == 'Products' ? 'active' : '' ?>" href='../../../domains/products/pages/products.php'>
-                        <span data-feather="shopping-cart"></span>
+                        <span data-feather="box"></span>
                         Products
                     </a>
                 </li>

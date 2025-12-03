@@ -6,7 +6,9 @@ function getAllInvoices()
 
     $query = "SELECT invoice.*, customer.cus_fname, customer.cus_lname, customer.cus_initial
                 FROM invoice
-                JOIN customer ON invoice.cus_code = customer.cus_code";
+                JOIN customer ON invoice.cus_code = customer.cus_code
+                ORDER BY inv_date DESC
+                ";
     $result = $conn->query($query);
     $data = []; //data set
     while ($row = $result->fetch_assoc()) {

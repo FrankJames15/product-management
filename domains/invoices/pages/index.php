@@ -59,7 +59,7 @@ include '../../../configs/connect-db.php';
                             <input type="submit" name="search" value="Search" class="btn btn-primary">
                         </div>
                 </form>
-                <a href="invoice-form.php" class="btn btn-success text-white  float-right"><i class="fas fa-plus-square"></i> New Invoice</a>
+                <a href="add-invoice.page.php" class="btn btn-success text-white  float-right"><i class="fas fa-plus-square"></i> New Invoice</a>
 
         </div>
         <?php

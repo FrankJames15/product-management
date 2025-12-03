@@ -7,7 +7,7 @@ include '../functions/add-customer.php';
 include '../functions/delete-customer.php';
 include '../functions/update-customer.php';
 
-$customers = getAllCustomers() ?? [];
+$customers = getAllCustomers(Connect()) ?? [];
 $textToSearch = $_POST['text-to-search'] ?? '';
 $filteredCustomers = $customers;
 

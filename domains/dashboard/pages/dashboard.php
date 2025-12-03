@@ -6,6 +6,7 @@ $conn = Connect();
 $productsCount  = getCount($conn, 'product');
 $customersCount = getCount($conn, 'customer');
 $ordersCount    = getCount($conn, 'invoice');
+$vendorsCount    = getCount($conn, 'vendors');
 
 $stats = [
     [
@@ -25,6 +26,12 @@ $stats = [
         'count' => $ordersCount,
         'icon' => 'shopping-cart',
         'icon-color' => 'text-danger'
+    ],
+    [
+        'label' => 'Vendors',
+        'count' => $vendorsCount,
+        'icon' => 'users',
+        'icon-color' => 'text-warning'
     ],
 
 ]
@@ -60,7 +67,7 @@ $stats = [
                         <?php foreach ($stats as $stat): ?>
 
                             <div class="col-12 col-md-4">
-                                <div class="card shadow-sm rounded-4 p-3">
+                                <div class="card shadow-sm rounded-4 p-3 mb-3">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <p class="text-muted mb-1"><?= $stat['label'] ?></p>

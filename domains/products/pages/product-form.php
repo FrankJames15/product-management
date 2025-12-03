@@ -85,7 +85,7 @@
                              <div class="col">
                                  <div class="form-group">
                                      <label class="form-label">Product Name</label>
-                                     <input name="name" class="form-control" value='test'>
+                                     <input name="name" class="form-control">
                                  </div>
                              </div>
                              <div class="col">
@@ -108,7 +108,7 @@
 
                          <div class="mb-3">
                              <label class="form-label">Description</label>
-                             <textarea name='description' class="form-control">Test</textarea>
+                             <textarea name='description' class="form-control"></textarea>
                          </div>
 
                          <div class="row">
