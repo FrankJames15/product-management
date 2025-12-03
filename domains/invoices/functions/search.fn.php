@@ -15,14 +15,15 @@ function search($invoices = [], $toSearch = '')
     foreach ($invoices as $invoice) {
         // create a single haystack containing first and last name for easier searching
         $code = $invoice['inv_number'] ?? '';
-        //$first = $invoice['p_name'] ?? '';
+        $first = $invoice['cus_fname'] ?? '';
+        $last = $invoice['cus_lname'] ?? '';
 
-        $haystack = $code; // . $first;
+        $haystack = $last . $first;
 
         // use strict comparison !== false so matches at position 0 are detected
         if (
-            stripos($haystack, $toSearch) !== false
-            // || stripos($code, $toSearch) !== false
+            stripos($haystack, $toSearch) !== false ||
+            stripos($code, $toSearch) !== false
         ) {
             $results[] = $invoice;
             continue;
