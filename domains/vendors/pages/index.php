@@ -1,25 +1,9 @@
 <?php
 session_start();
 include '../../../configs/connect-db.php';
-include '../functions/get-all-products.php';
-include '../functions/delete-product.php';
+include '../functions/get-all-vendors.php';
 
-if (isset($_POST['delete'])) {
-    $pcode = $_POST['pcode'];
-    if (deleteProduct($pcode)) {
-        $_SESSION['action'] = 'delete';
-        $_SESSION['msg'] = 'Product deleted successfully!';
-        header('location: products.php'); //refresh to prevent re-submit
-        exit;
-    }
-}
-
-if (isset($_POST['search'])) {
-    $search = $_POST['txtsearch'];
-    $products = findProducts($search);
-} else {
-    $products = getAllProducts();
-}
+$vendors = getAllVendors(Connect(), null, null);
 
 ?>
 <!doctype html>
@@ -27,7 +11,7 @@ if (isset($_POST['search'])) {
 
 <head>
     <?php
-    $title = 'Products';
+    $title = 'Vendors';
     include '../../../components/head.php'
     ?>
     <!-- Custom styles for this template -->
@@ -45,7 +29,7 @@ if (isset($_POST['search'])) {
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Manage Products</h1>
+                    <h1 class="h2">Manage Vendors</h1>
                 </div>
 
                 <form method="post">
@@ -59,7 +43,7 @@ if (isset($_POST['search'])) {
                             <input type="submit" name="search" value="Search" class="btn btn-primary">
                         </div>
                 </form>
-                <a href="product-form.php" class="btn btn-success text-white  float-right"><i class="fas fa-plus-square"></i> New Product</a>
+                <a href="add-vendor.page.php" class="btn btn-success text-white  float-right"><i class="fas fa-plus-square"></i> New Vendor</a>
 
         </div>
         <?php
@@ -77,14 +61,13 @@ if (isset($_POST['search'])) {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Vendor</th>
-                        <th>Description</th>
-
-                        <th>Price</th>
-                        <th>Stocks</th>
+                        <th>ID</th>
+                        <th>FirstName</th>
+                        <th>Last Name</th>
+                        <th>Initial</th>
+                        <th>Added at</th>
                         <th>Actions</th>
+
                     </tr>
                 </thead>
 
@@ -92,24 +75,23 @@ if (isset($_POST['search'])) {
                     <?php
                     //todo: add search
                     $i = 0;
-                    foreach ($products as $product) :
+                    foreach ($vendors as $vendor) :
                         $i++;
                     ?>
                         <tr>
                             <td><?= $i ?></td>
-                            <td><?= $product['p_code'] ?></td>
-                            <td><?= $product['p_name'] ?></td>
-                            <td><?= $product['first_name'] . ' ' . $product['initial'] . '. ' . $product['last_name'] ?></td>
-                            <td><?= $product['p_descript'] ?></td>
-                            <td><?= $product['p_price'] ?></td>
-                            <td><?= $product['p_qoh'] ?></td>
+                            <td><?= $vendor['id'] ?></td>
+                            <td><?= $vendor['last_name'] ?></td>
+                            <td><?= $vendor['first_name'] ?></td>
+                            <td><?= $vendor['initial'] ?></td>
+                            <td><?= $vendor['created_at'] ?></td>
                             <td>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <label class="btn btn-primary btn-sm">
                                         <a href="" class="text-white"><i class="fas fa-pen"></i></a>
                                     </label>
                                     <form method="post">
-                                        <input type="hidden" name="pcode" value="<?= $product['p_code'] ?>">
+                                        <input name="vendor-id" value="<?= $vendor['id'] ?>" type="hidden">
                                         <button class="btn btn-danger btn-sm" name="delete">
                                             <i class="fas fa-trash"></i>
                                         </button>

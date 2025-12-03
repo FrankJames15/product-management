@@ -26,6 +26,12 @@
                         Customers
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $title == 'Vendors' ? 'active' : '' ?>" href='../../../domains/vendors/pages/index.php'>
+                        <span data-feather="users"></span>
+                        Vendors
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>

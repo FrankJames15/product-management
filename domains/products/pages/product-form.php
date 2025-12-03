@@ -1,25 +1,50 @@
  <?php
     include '../../../configs/connect-db.php';
+    include '../../vendors/functions/get-all-vendors.php';
     include '../functions/add-product.php';
 
-    if (isset($_POST['insert'])) {
-        $pcode = $_POST['pcode'];
-        $desc = $_POST['desc'];
-        $stocks = $_POST['stocks'];
-        $price = $_POST['price'];
+
+
+    $vendors = getAllVendors(Connect(), null, null);
+    $selectedVendor = null;
+
+
+    if (isset($_POST['add-product'])) {
+        $name = $_POST['name'];
+        $vendor = $_POST['vendor'];
+        $desc = $_POST['description'];
+        $price = floatval($_POST['price']);
+        $stocks = intval($_POST['stocks']);
+
+
+        $selectedVendor = $vendor;
+
+        // echo "Name: " . $name . '<br />';
+        // echo "Vendor: " . $vendor . '<br />';
+        // echo "Desc: " . $desc . '<br />';
+        // echo "Price: " . $price . '<br />';
+        // echo "Stocks: " . $stocks . '<br />';
 
         function errorCB($error)
         {
             echo "Adding new product failed" . $error;
         };
 
-        if (addProduct('errorCB', $pcode, $desc, $stocks, $price)) {
+        if (addProduct(
+            Connect(),
+            'errorCB',
+            null,
+            $name,
+            $vendor,
+            $desc,
+            $price,
+            $stocks
+        )) {
             $_SESSION['action'] = 'Add';
             $_SESSION['msg'] = 'Product added successfully!';
             header('Location: products.php');
         }
     }
-
     ?>
 
  <!doctype html>
@@ -51,39 +76,59 @@
                  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                      <h1 class="h2">New Product</h1>
                  </div>
-                 <div class="col-md-6">
-                     <form method="post">
-                         <div class="form-row">
-                             <div class="form-group col-md-3">
-                                 <label for="code">Product Code</label>
-                                 <input type="text" class="form-control" name="pcode">
+                 <div class="container">
+
+
+                     <form method="POST"
+                         action=<?php $_SERVER['PHP_SELF'] ?>>
+                         <div class="row">
+                             <div class="col">
+                                 <div class="form-group">
+                                     <label class="form-label">Product Name</label>
+                                     <input name="name" class="form-control" value='test'>
+                                 </div>
                              </div>
+                             <div class="col">
+                                 <div class="form-group">
+                                     <label class="form-label">Select Vendor</label>
+                                     <select name="vendor" class="form-control">
+                                         <?php foreach ($vendors as $vendor): ?>
+                                             <option
 
-                         </div>
-                         <div class="form-group">
-                             <label for="description">Description</label>
-                             <input type="text" class="form-control" name="desc" placeholder="">
+                                                 <?php echo $vendor['id'] === $selectedVendor ? 'selected' : null ?>
+                                                 value=<?= $vendor['id'] ?>><?= $vendor['last_name'] . ", " . $vendor['first_name'] . " " . $vendor['initial'] . "."  ?></option>
+                                         <?php endforeach; ?>
+                                     </select>
+                                 </div>
+                             </div>
                          </div>
 
-                         <div class="form-row">
-                             <div class="form-group col-md-3">
+
+
+
+                         <div class="mb-3">
+                             <label class="form-label">Description</label>
+                             <textarea name='description' class="form-control">Test</textarea>
+                         </div>
+
+                         <div class="row">
+                             <div class="form-group col-sm">
                                  <label for="price">Price</label>
-                                 <input type="text" class="form-control" name="price">
+                                 <input name="price" class="form-control" type='number' step="0.01" required>
                              </div>
 
-                             <div class="form-group col-md-2">
+                             <div class="form-group col-sm">
                                  <label for="stocks">Stocks</label>
-                                 <input type="text" class="form-control" name="stocks">
+                                 <input name="stocks" class="form-control" type='number' step="1" required>
                              </div>
                          </div>
                          <button type="reset" class="btn btn-secondary">Reset</button>
-                         <button type="submit" class="btn btn-primary" name="insert">Save</button>
-
-
+                         <button name="add-product" type="submit" class="btn btn-primary">Save</button>
                      </form>
                  </div>
-             </main>
          </div>
+         </main>
+     </div>
      </div>
 
 
