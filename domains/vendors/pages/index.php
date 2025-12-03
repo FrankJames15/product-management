@@ -65,6 +65,7 @@ $vendors = getAllVendors(Connect(), null, null);
                         <th>FirstName</th>
                         <th>Last Name</th>
                         <th>Initial</th>
+                        <th>Contact</th>
                         <th>Added at</th>
                         <th>Actions</th>
 
@@ -84,6 +85,7 @@ $vendors = getAllVendors(Connect(), null, null);
                             <td><?= $vendor['last_name'] ?></td>
                             <td><?= $vendor['first_name'] ?></td>
                             <td><?= $vendor['initial'] ?></td>
+                            <td><?= $vendor['contact'] ?></td>
                             <td><?= $vendor['created_at'] ?></td>
                             <td>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">

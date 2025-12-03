@@ -28,9 +28,9 @@ if (isset($_POST['compute'])) {
     $taxRate = $_POST['tax-rate'];
 
     // visualize inputs
-    echo "Customer: " . $customer . '<br />';
-    echo "Subtotal: " . $subtotal . '<br />';
-    echo "TaxRate: " . $taxRate . '<br />';
+    // echo "Customer: " . $customer . '<br />';
+    // echo "Subtotal: " . $subtotal . '<br />';
+    // echo "TaxRate: " . $taxRate . '<br />';
 
     // compute
     $tax = $subtotal * ($taxRate / 100);
@@ -44,13 +44,13 @@ if (isset($_POST['compute'])) {
     $_SESSION['total'] = $total;
     $_SESSION['is-computed'] = 1;
 
-    echo 'SESSIONS' . '<br />';
-    echo 'customer: ' . $_SESSION['customer'] . '<br />';
-    echo 'subtotal: ' . $_SESSION['subtotal'] . '<br />';
-    echo 'tax-rate: ' . $_SESSION['tax-rate'] . '<br />';
-    echo 'tax: ' . $_SESSION['tax'] . '<br />';
-    echo 'total: ' . $_SESSION['total'] . '<br />';
-    echo 'is-computed: ' . $_SESSION['is-computed'] . '<br />';
+    // echo 'SESSIONS' . '<br />';
+    // echo 'customer: ' . $_SESSION['customer'] . '<br />';
+    // echo 'subtotal: ' . $_SESSION['subtotal'] . '<br />';
+    // echo 'tax-rate: ' . $_SESSION['tax-rate'] . '<br />';
+    // echo 'tax: ' . $_SESSION['tax'] . '<br />';
+    // echo 'total: ' . $_SESSION['total'] . '<br />';
+    // echo 'is-computed: ' . $_SESSION['is-computed'] . '<br />';
 }
 
 if (isset($_POST['add-invoice'])) {
