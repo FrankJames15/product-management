@@ -2,8 +2,31 @@
 session_start();
 include '../../../configs/connect-db.php';
 include '../functions/get-all-vendors.php';
+include '../functions/delete-vendor.fn.php';
 
 $vendors = getAllVendors(Connect(), null, null);
+
+if (isset($_POST['delete'])) {
+
+    $to_delete = $_POST['to-delete'];
+
+    function errorCB($err_msg)
+    {
+        echo "Failed to delete: " . $err_msg;
+        $_SESSION['action'] = 'error';
+        $_SESSION['msg'] = 'Deletion Failed';
+        // header('location: index.php'); //refresh to prevent re-submit
+        exit;
+    }
+    function successCB()
+    {
+        $_SESSION['action'] = 'delete';
+        $_SESSION['msg'] = 'Invoice deleted successfully!';
+        header('location: index.php'); //refresh to prevent re-submit
+        exit;
+    }
+    deleteVendor(Connect(), 'errorCB', 'successCB', $to_delete);
+}
 
 ?>
 <!doctype html>
@@ -88,17 +111,19 @@ $vendors = getAllVendors(Connect(), null, null);
                             <td><?= $vendor['contact'] ?></td>
                             <td><?= $vendor['created_at'] ?></td>
                             <td>
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-primary btn-sm">
-                                        <a href="" class="text-white"><i class="fas fa-pen"></i></a>
-                                    </label>
-                                    <form method="post">
-                                        <input name="vendor-id" value="<?= $vendor['id'] ?>" type="hidden">
-                                        <button class="btn btn-danger btn-sm" name="delete">
+                                <form action=<?= $_SERVER['PHP_SELF'] ?>
+                                    method="POST">
+
+                                    <input name="to-delete" value="<?= $vendor['id'] ?>" type="hidden">
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-primary btn-sm">
+                                            <a href="" class="text-white"><i class="fas fa-pen"></i></a>
+                                        </label>
+                                        <button type='submit' class="btn btn-danger btn-sm" name="delete">
                                             <i class="fas fa-trash"></i>
                                         </button>
-                                    </form>
-                                </div>
+                                    </div>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach ?>
